@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormService } from '../form.service';
 import {Router, ActivatedRoute } from '@angular/router';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-form',
@@ -11,8 +13,8 @@ export class FormComponent implements OnInit {
   data: any = {
     email: '',
     password: '',
-    id: ''
   }
+  id = ''
   constructor(
     private formService: FormService,
     private router: Router,
@@ -21,18 +23,22 @@ export class FormComponent implements OnInit {
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
+    this.id = id;
     if(id) this.getUserDetail(id);
   }
 
   //createUser
   async createUser() {
     try {
-      if(!this.data.id){
+      if(!this.id){
         await this.formService.createUserList(this.data);
+      Swal.fire('Created');
         return this.router.navigate(['/table']);
       }
       await this.formService.updateUserList(this.data);
+      Swal.fire('Updated');
         return this.router.navigate(['/table']);
+
     }
     catch (error) {
       console.error(error);
@@ -42,13 +48,14 @@ export class FormComponent implements OnInit {
   //login user
   async login() {
     try {
-      const result = await this.formService.loginUserList(this.data);
-      alert('success');
+      await this.formService.loginUserList(this.data);
+      Swal.fire('success!');
       this.router.navigate(['/table']);
     }
     catch (error) {
       console.error(error);
-      alert('Invalid Credentials');
+      Swal.fire('Invalid Credentials!');
+      // alert('Invalid Credentials');
     }
   }
 
@@ -60,7 +67,6 @@ export class FormComponent implements OnInit {
     }
     catch (error) {
       console.error(error);
-      alert('Invalid Credentials');
     }
   }
 

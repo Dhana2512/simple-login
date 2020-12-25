@@ -33,6 +33,7 @@ export class TableComponent implements OnInit {
   //delete user
   async delete(id, index) {
     try {
+      console.log(id,index)
       await this.formService.deleteUserList(id);
        this.customers.splice(index, 1);
     }

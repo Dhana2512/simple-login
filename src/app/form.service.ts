@@ -17,7 +17,7 @@ export class FormService {
 
   //login
   loginUserList(data) {
-    return this.http.post('http://localhost:4000/customers', data).toPromise();
+    return this.http.post('http://localhost:4000/login', data).toPromise();
   }
 
   //retrive
