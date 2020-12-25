@@ -1,0 +1,25 @@
+<div class="container-fluid bg">
+    <div class="row justify-content-center">
+        <div class="col-12 col-sm-6 col-md-3">
+            <form class="form-color" #loginForm="ngForm" (ngSubmit)="createUser()">
+                <h2>Login Form</h2>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Email address</label>
+                    <input type="email" #em="ngModel" name="email" [(ngModel)]="data.email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+                    <span *ngIf="em.touched && em.invalid" style="color:red;">Please fill the Email</span>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Password</label>
+                    <input type="password" #pa="ngModel" name="password" [(ngModel)]="data.password" class="form-control" id="exampleInputPassword1" required>
+                <span *ngIf = "pa.touched && pa.invalid" style="color:red">Please fill the password</span>
+                </div>
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                </div>
+                <button [disabled]="loginForm.invalid" type="submit" class="btn btn-primary btn-block">Submit</button>
+                <button type="button" (click)="login()" class="btn btn-primary btn-block">Login</button>
+            </form>
+        </div>
+    </div>
+</div>
