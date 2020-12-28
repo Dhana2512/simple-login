@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { CreateUser, LoginUser } from './user-interface/user-interface';
 
 @Injectable({
   providedIn: 'root'
@@ -11,33 +12,33 @@ export class FormService {
   ) { }
 
   //create
-  createUserList(data) {
-    return this.http.post('http://localhost:4000/customers', data).toPromise();
+  create(data): Promise<CreateUser> {
+    return this.http.post<CreateUser>('http://localhost:4000/customers', data).toPromise();
   }
 
   //login
-  loginUserList(data) {
-    return this.http.post('http://localhost:4000/login', data).toPromise();
+  login(data): Promise<LoginUser>{
+    return this.http.post<LoginUser>('http://localhost:4000/login', data).toPromise();
   }
 
   //retrive
-  retriveUserList() {
-    return this.http.get('http://localhost:4000/customers').toPromise();
+  retriveUserList(): Promise<[CreateUser]> {
+    return this.http.get<[CreateUser]>('http://localhost:4000/customers').toPromise();
   }
 
   //delete
-  deleteUserList(id){
-    return this.http.delete(`http://localhost:4000/customers/${id}`).toPromise();
+  delete(id): Promise<CreateUser>{
+    return this.http.delete<CreateUser>(`http://localhost:4000/customers/${id}`).toPromise();
   } 
 
   //update
-  updateUserList(data){
-    return this.http.put(`http://localhost:4000/customers/${data.id}`,data).toPromise();
+  update(data): Promise<CreateUser>{
+    return this.http.put<CreateUser>(`http://localhost:4000/customers/${data.id}`,data).toPromise();
   }
 
   //retrive particular user
-  retriveParticularUser(id){
-    return this.http.get(`http://localhost:4000/users/${id}`).toPromise();
+  getParticularUser(id): Promise<CreateUser>{
+    return this.http.get<CreateUser>(`http://localhost:4000/users/${id}`).toPromise();
   }
 
 }

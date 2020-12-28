@@ -20,7 +20,7 @@ export class TableComponent implements OnInit {
 
 
   //retrive userlist
-  async retriveUser() {
+  async retriveUser():Promise<void> {
     try {
       const result = await this.formService.retriveUserList();
       this.customers = result;
@@ -31,10 +31,9 @@ export class TableComponent implements OnInit {
   }
 
   //delete user
-  async delete(id, index) {
+  async delete(id, index):Promise<void> {
     try {
-      console.log(id,index)
-      await this.formService.deleteUserList(id);
+      await this.formService.delete(id);
        this.customers.splice(index, 1);
     }
     catch (error) {
@@ -43,7 +42,7 @@ export class TableComponent implements OnInit {
   }
 
   //update user
-  async update(id) {
+  async update(id):Promise<void> {
     try {
       this.router.navigate([`/form/${id}`])
     }

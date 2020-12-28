@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormService } from '../form.service';
-import {Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
+import {CreateUser} from '../user-interface/user-interface'
+
 
 
 @Component({
@@ -10,11 +12,11 @@ import Swal from 'sweetalert2';
   styleUrls: ['./form.component.css']
 })
 export class FormComponent implements OnInit {
-  data: any = {
+  data: CreateUser = {
     email: '',
     password: '',
   }
-  id = ''
+  id = '';
   constructor(
     private formService: FormService,
     private router: Router,
@@ -24,21 +26,21 @@ export class FormComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     this.id = id;
-    if(id) this.getUserDetail(id);
+    if (id) this.getParticularUser(id);
   }
 
   //createUser
-  async createUser() {
+  async create(): Promise<void> {
     try {
-      if(!this.id){
-        await this.formService.createUserList(this.data);
-      Swal.fire('Created');
-        return this.router.navigate(['/table']);
+      if (!this.id) {
+        await this.formService.create(this.data);
+        Swal.fire('Created');
+        this.router.navigate(['/table']);
+        return;
       }
-      await this.formService.updateUserList(this.data);
+      await this.formService.update(this.data);
       Swal.fire('Updated');
-        return this.router.navigate(['/table']);
-
+      this.router.navigate(['/table']);
     }
     catch (error) {
       console.error(error);
@@ -46,22 +48,23 @@ export class FormComponent implements OnInit {
   }
 
   //login user
-  async login() {
+  async login(): Promise<void> {
     try {
-      await this.formService.loginUserList(this.data);
-      Swal.fire('success!');
+     const res: any = await this.formService.login(this.data);
+      localStorage.setItem('AUTH_TOKEN',res.token)
+      Swal.fire('success');
       this.router.navigate(['/table']);
     }
     catch (error) {
       console.error(error);
-      Swal.fire('Invalid Credentials!');
+      Swal.fire('Invalid Credentials');
       // alert('Invalid Credentials');
     }
   }
 
-  async getUserDetail(id) {
+  async getParticularUser(id):Promise<void> {
     try {
-      const result: any = await this.formService.retriveParticularUser(id);
+      const result: any = await this.formService.getParticularUser(id);
       delete result.password;
       this.data = result;
     }
